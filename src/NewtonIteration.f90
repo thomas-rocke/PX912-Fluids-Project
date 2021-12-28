@@ -1,1 +1,1 @@
-
+! Newton-Raphson iterators for 1D and 2D data
