@@ -2,13 +2,13 @@
 
 module NewtonIteration
     use ISO_FORTRAN_ENV
-    use DataClass
+    use SurfaceProblems
     implicit none
 
     interface template
             pure function func_template(x, N, Dat)
                 use ISO_FORTRAN_ENV
-                use DataClass
+                use SurfaceProblems
                 real(kind=REAL64), intent(in), dimension(N) :: x
                 integer, intent(in) :: N
                 type(Data), intent(in) :: Dat
