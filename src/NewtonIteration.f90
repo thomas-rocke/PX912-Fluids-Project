@@ -25,7 +25,7 @@ module NewtonIteration
         real(kind=REAL64), intent(inout), dimension(:) :: x ! X data
         procedure(func_template), pointer :: f ! Function pointer (Newton error function), returns array of length M
         real(kind=REAL64), intent(in) :: eps, tol ! Deviation used to approx Jacobian, Error tolerance
-        type(Data), intent(in) :: Dat
+        type(Data), intent(inout) :: Dat
 
         integer :: N, i
         integer, parameter :: MAX_ITERATIONS = 10000
@@ -36,6 +36,7 @@ module NewtonIteration
 
         do i=1, MAX_ITERATIONS
             call NewtonIter(x, f, eps, N, Dat)
+            call Dat%BC() ! Apply boundary conditions
             errs = f(x, N, Dat)
             err = sum(abs(errs))
             Print *, "Iteration", i, " completed with error", err
