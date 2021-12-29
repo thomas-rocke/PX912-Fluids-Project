@@ -3,7 +3,6 @@
 module NewtonIteration
     use ISO_FORTRAN_ENV
     use DataClass
-    use lapack
     implicit none
 
     interface template
@@ -20,6 +19,35 @@ module NewtonIteration
 
     contains
     
+    subroutine Newton(x, f, eps, Dat, tol)
+        ! Full Newton-Raphson iteration to solve for x
+        ! Given the set of error functions f
+        real(kind=REAL64), intent(inout), dimension(:) :: x ! X data
+        procedure(func_template), pointer :: f ! Function pointer (Newton error function), returns array of length M
+        real(kind=REAL64), intent(in) :: eps, tol ! Deviation used to approx Jacobian, Error tolerance
+        type(Data), intent(in) :: Dat
+
+        integer :: N, i
+        integer, parameter :: MAX_ITERATIONS = 10000
+        real(kind=REAL64) :: err
+        real(kind=REAL64), dimension(size(x)) :: errs
+
+        N = size(x)
+
+        do i=1, MAX_ITERATIONS
+            call NewtonIter(x, f, eps, N, Dat)
+            errs = f(x, N, Dat)
+            err = sum(abs(errs))
+            Print *, "Iteration", i, " completed with error", err
+            if (err < tol) then
+                Print *, "Convergence reached, stopping"
+                return
+            end if
+        end do
+        Print *, "Maximum number of iterations reached, stopping"
+    end subroutine
+
+
     subroutine NewtonIter(x, f, eps, N, Dat)
         ! Perform one iteration of the newton method, updating x
         real(kind=REAL64), intent(inout), dimension(N) :: x ! X data
@@ -30,7 +58,7 @@ module NewtonIteration
 
         real(kind=REAL64), dimension(N, N) :: Jacobian
         real(kind=REAL64), dimension(N) :: dx
-        integer :: ipiv
+        integer :: ipiv, info
 
         Jacobian = GetJacobian(x, f, eps, N, Dat)
 
