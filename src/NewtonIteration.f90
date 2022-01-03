@@ -102,7 +102,7 @@ module NewtonIteration
         DO j=1, N
             dx = 0.0_REAL64
             dx(j) = x(j) * eps ! dx_i = eps * x_j for i=j, 0 otherwise
-            Jacobian(:, j) = (f(x + dx, N, Dat) + f(x - dx, N, Dat))/(2 * dx(j)) ! Do df_i/dx_j for all f_is 
+            Jacobian(:, j) = (f(x + dx, N, Dat) - f(x - dx, N, Dat))/(2 * dx(j)) ! Do df_i/dx_j for all f_is 
         end do
     end function
 
@@ -111,7 +111,7 @@ module NewtonIteration
         integer, intent(in) :: N
         type(Data), intent(in) :: Dat
         real(kind=REAL64), dimension(N) :: test
-        test = x
+        test = x*x*0.5
     end function
 
 end module NewtonIteration
@@ -131,5 +131,5 @@ program TestIteration
         x(i) = i
     end do
 
-    print *, GetJacobian(x, func, 0.001_REAL64, 10, Dat)
+    print *, GetJacobian(x, func, 0.1_REAL64, 10, Dat)
 end program
