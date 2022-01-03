@@ -12,7 +12,7 @@ module NewtonIteration
                 real(kind=REAL64), intent(in), dimension(N) :: x
                 integer, intent(in) :: N
                 type(Data), intent(in) :: Dat
-                real(kind=REAL64), dimension(N) :: func
+                real(kind=REAL64), dimension(N) :: func_template
             end function
     end interface
 
@@ -106,6 +106,30 @@ module NewtonIteration
         end do
     end function
 
-
+    pure function test(x, N, Dat)
+        real(kind=REAL64), dimension(N), intent(in) :: x
+        integer, intent(in) :: N
+        type(Data), intent(in) :: Dat
+        real(kind=REAL64), dimension(N) :: test
+        test = x
+    end function
 
 end module NewtonIteration
+
+
+program TestIteration
+    use ISO_FORTRAN_ENV
+    use NewtonIteration
+    use SurfaceProblems
+
+    real(kind=REAL64), dimension(10) :: x
+    type(Data) :: Dat
+    integer :: i
+    procedure(func_template), pointer :: func => test
+
+    do i=1,10
+        x(i) = i
+    end do
+
+    print *, GetJacobian(x, func, 0.001_REAL64, 10, Dat)
+end program
