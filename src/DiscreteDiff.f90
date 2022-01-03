@@ -10,10 +10,11 @@ module DiffFuncs
         ! Estimates the first order derivative of x, 
         ! given step size dx
         real(kind=REAL64), dimension(N), intent(in) :: x
-        integer, intent(in) :: N, i
+        integer, intent(in) :: N
         real(kind=REAL64), intent(in) :: dx
         real(kind=REAL64), dimension(N) :: diff
         real(kind=REAL64), dimension(0:N+1) :: GuardedX
+        integer i
 
         ! Place x into guarded array
         GuardedX(1:N) = x
@@ -32,10 +33,11 @@ module DiffFuncs
         ! Estimates the 2nd order derivative of x
         ! given step size dx
         real(kind=REAL64), dimension(N), intent(in) :: x
-        integer, intent(in) :: N, i
+        integer, intent(in) :: N
         real(kind=REAL64), intent(in) :: dx
         real(kind=REAL64), dimension(N) :: diff
         real(kind=REAL64), dimension(0:N+1) :: GuardedX
+        integer :: i
 
         ! Place x into guarded array
         GuardedX(1:N) = x
@@ -64,3 +66,4 @@ module DiffFuncs
         grad = - diffTwo/sqrt(1 + diffOne * diffOne)**3  - diffOne/(r * sqrt(1 + diffOne * diffOne))
         
     end function
+end module
