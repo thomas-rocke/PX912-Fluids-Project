@@ -36,7 +36,6 @@ module NewtonIteration
 
         do i=1, MAX_ITERATIONS
             call NewtonIter(x, f, eps, N, Dat)
-            call Dat%BC() ! Apply boundary conditions
             errs = f(x, N, Dat)
             err = sum(abs(errs))
             Print *, "Iteration", i, " completed with error", err
@@ -59,16 +58,20 @@ module NewtonIteration
 
         real(kind=REAL64), dimension(N, N) :: Jacobian
         real(kind=REAL64), dimension(N) :: dx
-        integer :: ipiv, info
+        integer :: info
+        integer, dimension(N) :: ipiv
 
         Jacobian = GetJacobian(x, f, eps, N, Dat)
 
         ! Solve linear equation J_ij(x) dx_i = - f_j(x) 
         dx = - f(x, N, Dat) ! dgesv will modify this to become the correct dx
+
+
         call dgesv(N, 1, Jacobian, N, ipiv, dx, N, info)
 
         if (info /= 0) then
-            print *, "Error occurred in linear solving" 
+            print *, "Error occurred in linear solving"
+            print *, info
             stop
         end if
 
@@ -109,7 +112,7 @@ module NewtonIteration
         integer, intent(in) :: N
         type(Data), intent(in) :: Dat
         real(kind=REAL64), dimension(N) :: test
-        test = x*x*0.5
+        test = cos(x)!sum(x)
     end function
 
 end module NewtonIteration
@@ -120,14 +123,15 @@ program TestIteration
     use NewtonIteration
     use SurfaceProblems
 
-    real(kind=REAL64), dimension(10) :: x
+    real(kind=REAL64), dimension(3) :: x
     type(Data) :: Dat
     integer :: i
     procedure(func_template), pointer :: func => test
 
-    do i=1,10
+    do i=1,3
         x(i) = i
     end do
 
-    print *, GetJacobian(x, func, 0.1_REAL64, 10, Dat)
+    Call Newton(x, func, 0.1_REAL64, Dat, 0.01_REAL64)
+    print *, x
 end program
