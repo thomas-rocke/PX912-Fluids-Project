@@ -21,7 +21,7 @@ module SurfaceProblems
     contains
 
     subroutine init(this, P, Rho, g, sigma, R, N)
-        ! Initialize Data type with a h_map
+        ! Initialize Data type
         class(Data), intent(out) :: this
         real(kind=REAL64), intent(in) :: Rho, g, sigma, R, P
         integer, intent(in) :: N
