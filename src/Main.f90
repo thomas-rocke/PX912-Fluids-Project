@@ -14,7 +14,7 @@ Rho = 1000.0_REAL64
 g = 0
 sigma = 0.07_REAL64
 R = 20E-3_REAL64
-N = 10
+N = 100
 
 
 call Dat%init(P, Rho, g, sigma, R, N)
@@ -26,7 +26,7 @@ write(15, *) Dat%h
 
 close(15)
 
-call Newton(Dat%h, f, 1E-3_REAL64, Dat, 1E-3_REAL64)
+call Newton(Dat%h, f, 1E-3_REAL64, Dat, 1E-6_REAL64)
 
 
 open(file="Final.dat", unit=15)

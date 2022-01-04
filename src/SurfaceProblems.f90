@@ -60,7 +60,6 @@ module SurfaceProblems
         grad = NormalGrad(h, Dat%rad, N, Dat%dr)
 
         error = Dat%P + Dat%rho * Dat%g * h - Dat%sigma * grad
-
     end function
 
 
@@ -76,11 +75,11 @@ module SurfaceProblems
         integer :: i
         real(kind=REAL64) :: factor, const
 
-        ! h = -(P/2sig) * (R^2 - r^2)
-        ! = -(P/2sig) * R^2 - -(P/2sig) * dr^2 * (i-1)*2
+        ! h =(P/2sig) * (R^2 - r^2)
+        ! = (P/2sig) * R^2 - -(P/2sig) * dr^2 * (i-1)*2
         ! = const - factor * (i-1)^2
-        const = - 0.5_REAL64 * Dat%P * Dat%R * Dat%R / Dat%sigma
-        factor = - 0.5_REAL64 * Dat%P * Dat%dr * Dat%dr / Dat%sigma
+        const =  0.5_REAL64 * Dat%P * Dat%R * Dat%R / Dat%sigma
+        factor =  0.5_REAL64 * Dat%P * Dat%dr * Dat%dr / Dat%sigma
 
         do i=1, Dat%N
             Dat%h(i) = const - factor * (i-1) * (i-1)
