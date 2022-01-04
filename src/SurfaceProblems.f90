@@ -67,23 +67,39 @@ module SurfaceProblems
     ! # INITIAL CONDITIONS #
     ! ######################
 
-    subroutine ZeroG(Dat)
+    subroutine ZeroGLowH(Dat)
         ! Analytical solution of a system with no gravity
+        ! Under a small h approximation
         ! Modifies Dat%h
         type(Data), intent(inout) :: Dat
 
-        integer :: i
         real(kind=REAL64) :: factor, const
 
         ! h =(P/2sig) * (R^2 - r^2)
         ! = (P/2sig) * R^2 - -(P/2sig) * dr^2 * (i-1)*2
         ! = const - factor * (i-1)^2
         const =  0.5_REAL64 * Dat%P * Dat%R * Dat%R / Dat%sigma
-        factor =  0.5_REAL64 * Dat%P * Dat%dr * Dat%dr / Dat%sigma
+        factor =  0.5_REAL64 * Dat%P / Dat%sigma
+        
+        Dat%h = const - factor * Dat%rad**2
+        
 
-        do i=1, Dat%N
-            Dat%h(i) = const - factor * (i-1) * (i-1)
-        end do
+    end subroutine
+
+
+    subroutine ZeroG(Dat)
+        ! Analytical solution of a system with no gravity
+        ! Modifies Dat%h
+        type(Data), intent(inout) :: Dat
+
+        real(kind=REAL64) :: factor, const
+
+        ! h = - sqrt(sig^2/P^2 - R^2) + sqrt(sig^2/P^2 - r^2)
+        ! = const + sqrt(factor - r^2)
+        factor =  Dat%sigma**2 / Dat%P ** 2
+        const =  sqrt(factor - Dat%R**2)
+
+        Dat%h = -const + sqrt(factor - Dat%rad**2)
 
     end subroutine
 
