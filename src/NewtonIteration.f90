@@ -6,7 +6,7 @@ module NewtonIteration
     implicit none
 
     interface template
-            pure function func_template(x, N, Dat)
+            function func_template(x, N, Dat)
                 use ISO_FORTRAN_ENV
                 use SurfaceProblems
                 real(kind=REAL64), intent(in), dimension(N) :: x
