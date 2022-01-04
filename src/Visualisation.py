@@ -2,12 +2,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-fname = "iteration1.dat"
+init = "Initial.dat"
+fin = "Final.dat"
 
+in_dat = np.genfromtxt(init, dtype=np.float64)
+fin_dat = np.genfromtxt(fin, dtype=np.float64)
 
-dat = np.genfromtxt(fname, dtype=np.float64)
+x = [i * 20E-3 / 101 for i in range(100)]
 
-print(dat)
-
-plt.plot(dat)
+plt.plot(x, in_dat, label="Initial")
+plt.plot(x, fin_dat, label="Final")
+plt.legend()
 plt.show()

@@ -20,10 +20,19 @@ N = 100
 call Dat%init(P, Rho, g, sigma, R, N)
 call ZeroG(Dat)
 
-Print *, Dat%h
-call Newton(Dat%h, f, 1E-3_REAL64, Dat, 1.0_REAL64)
-Print *, Dat%h
+open(file="Initial.dat", unit=15)
 
-Print *, f(Dat%h, N, Dat)
+write(15, *) Dat%h
+
+close(15)
+
+call Newton(Dat%h, f, 1E-3_REAL64, Dat, 1E-3_REAL64)
+
+
+open(file="Final.dat", unit=15)
+
+write(15, *) Dat%h
+
+close(15)
 
 end program main
