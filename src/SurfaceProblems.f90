@@ -55,6 +55,7 @@ module SurfaceProblems
         type(Data), intent(in) :: Dat
         real(kind=REAL64), dimension(N) :: error, grad
 
+        error = 0.0_REAL64
 
         grad = NormalGrad(h, Dat%rad, N, Dat%dr)
 

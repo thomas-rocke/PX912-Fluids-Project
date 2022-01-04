@@ -14,16 +14,20 @@ Rho = 1000.0_REAL64
 g = 0
 sigma = 0.07_REAL64
 R = 20E-3_REAL64
-N = 100
+N = 10
 
 
 call Dat%init(P, Rho, g, sigma, R, N)
 call ZeroG(Dat)
 
-Print *, Dat%h
+!Print *, Dat%h
 call Newton(Dat%h, f, 1E-3_REAL64, Dat, 1.0_REAL64)
 Print *, Dat%h
 
-Print *, f(Dat%h, N, Dat)
+!Print *,  OrderOneDiff(Dat%h, N, Dat%dr)
+!Print *,  OrderTwoDiff(Dat%h, N, Dat%dr)
+
+!Print *, NormalGrad(Dat%h, Dat%rad, N, Dat%dr)! 
+!Print *, f(Dat%h, N, Dat)
 
 end program main

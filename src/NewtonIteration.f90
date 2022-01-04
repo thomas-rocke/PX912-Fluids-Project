@@ -116,22 +116,3 @@ module NewtonIteration
     end function
 
 end module NewtonIteration
-
-
-program TestIteration
-    use ISO_FORTRAN_ENV
-    use NewtonIteration
-    use SurfaceProblems
-
-    real(kind=REAL64), dimension(3) :: x
-    type(Data) :: Dat
-    integer :: i
-    procedure(func_template), pointer :: func => test
-
-    do i=1,3
-        x(i) = i
-    end do
-
-    Call Newton(x, func, 0.1_REAL64, Dat, 0.01_REAL64)
-    print *, x
-end program

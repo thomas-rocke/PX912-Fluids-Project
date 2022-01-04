@@ -63,7 +63,9 @@ module DiffFuncs
         diffOne = OrderOneDiff(h, N, dr)
         diffTwo = OrderTwoDiff(h, N, dr)
 
-        grad = - diffTwo/sqrt(1 + diffOne * diffOne)**3  - diffOne/(r * sqrt(1 + diffOne * diffOne))
+
+        ! Add 1E-90 offset to denominator to avoid DIV0 NAN values
+        grad = - diffTwo/sqrt(1 + diffOne * diffOne)**3  - diffOne/(r * sqrt(1 + diffOne * diffOne) + 1E-90_REAL64)
         
     end function
 end module

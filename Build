@@ -15,7 +15,7 @@ outfile="Test.exe"
 fc=gfortran
 
 #Compile Line
-$fc -g -std=f2008 $myprogramfiles -o $outfile -fopenmp -llapack && success=1
+$fc -g $myprogramfiles -o $outfile -fopenmp -llapack && success=1
 
 if [ $success -eq 1 ]
 then
@@ -26,7 +26,7 @@ then
 
     #### EXECUTE PYTHON VISUALISATION ####
     echo "Executing Python visualisation"
-    python3 ./src/Visualisation.py
+    # python3 ./src/Visualisation.py
 else
     echo "Compiling step failed. Aborting"
 fi
