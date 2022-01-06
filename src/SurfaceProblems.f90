@@ -8,7 +8,7 @@ module SurfaceProblems
     use DiffFuncs
     implicit none
 
-    real(kind=REAL64), parameter :: PI = 4.0_REAL64 * atan(1.0_REAL64), OMEGA = 1.0_REAL64, &
+    real(kind=REAL64), parameter :: PI = 4.0_REAL64 * atan(1.0_REAL64), OMEGA = 80_REAL64, &
                    OMEGA_SQUARE = OMEGA**2
 
     type :: Data
@@ -74,7 +74,7 @@ module SurfaceProblems
         real(kind=REAL64), dimension(N) :: error
 
         error = YoungLaplace(h, N, Dat)
-        error = error + Dat%rho * Dat%dr * Dat%h * 2.0_REAL64 * PI * OMEGA_SQUARE * Dat%rad
+        error = error + Dat%rho * Dat%dr * Dat%h * 2.0_REAL64 * PI * OMEGA_SQUARE * Dat%rad**2
     end function
 
     ! ######################
@@ -110,7 +110,7 @@ module SurfaceProblems
 
         ! h = - sqrt(4sig^2/P^2 - R^2) + sqrt(4sig^2/P^2 - r^2)
         ! = const + sqrt(factor - r^2)
-        factor =  4.0_REAL64 * Dat%sigma**2 / Dat%P ** 2
+        factor =  4.0_REAL64 * Dat%sigma**2 / (Dat%P ** 2 + 1E-90)
         const =  sqrt(factor - Dat%R**2)
 
         Dat%h = (-const + sqrt(factor - Dat%rad**2))

@@ -9,11 +9,11 @@ integer :: N
 procedure(func_template), pointer :: f => YoungLaplace
 
 ! Use values for water
-P = 0.010_REAL64
+P = 1.0_REAL64
 Rho = 1000.0_REAL64
-g = 0
+g = -9.81_REAL64
 sigma = 0.07_REAL64
-R = 10E-3_REAL64
+R = 1E-2_REAL64
 N = 300
 
 

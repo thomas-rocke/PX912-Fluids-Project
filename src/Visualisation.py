@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 n=300
 
-sf = 1E6
+sf = 1E3
 
 init = "Initial.dat"
 fin = "Final.dat"
@@ -13,17 +13,13 @@ fin_dat = np.genfromtxt(fin, dtype=np.float64)
 
 x = [i * 10 / (n+1) for i in range(n)]
 
-fig, ax = plt.subplots(nrows=2, sharex=True)
 
-ax[0].plot(x, sf*in_dat, label="Initial")
-ax[0].plot(x, sf*fin_dat, label="Final")
-ax[1].plot(x, (in_dat - fin_dat)* sf * 10**3, label="Relative Difference")
+plt.plot(x, sf*in_dat, label="Zero Gravity")
+plt.plot(x, sf*fin_dat, label="g=9.81")
+plt.xlabel("Radius (mm)")
+plt.ylabel("Surface Height ($mm)")
 
-ax[1].set_xlabel("Radius (mm)")
-ax[0].set_ylabel("Surface Height ($\mu$m)")
+plt.legend()
 
-ax[1].set_ylabel("Error ($p$m)")
-ax[0].legend()
-
-ax[0].set_title("Agreement for P=0.01Pa")
+plt.title("Effect of adding gravity")
 plt.show()
