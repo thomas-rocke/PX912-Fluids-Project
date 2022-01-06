@@ -8,6 +8,9 @@ module SurfaceProblems
     use DiffFuncs
     implicit none
 
+    real(kind=REAL64), parameter :: PI = 4.0_REAL64 * atan(1.0_REAL64), OMEGA = 1.0_REAL64, &
+                   OMEGA_SQUARE = OMEGA**2
+
     type :: Data
         ! Axisymmetric bubble model data
         ! h = h(r)
@@ -62,6 +65,17 @@ module SurfaceProblems
         error = Dat%P + Dat%rho * Dat%g * h - Dat%sigma * grad
     end function
 
+
+    function RotationExtension(h, N, Dat) result(error)
+        ! Young-Laplace plus rotational term
+        real(kind=REAL64), dimension(N), intent(in) :: h
+        integer, intent(in) :: N
+        type(Data), intent(in) :: Dat
+        real(kind=REAL64), dimension(N) :: error
+
+        error = YoungLaplace(h, N, Dat)
+        error = error + Dat%rho * Dat%dr * Dat%h * 2.0_REAL64 * PI * OMEGA_SQUARE * Dat%rad
+    end function
 
     ! ######################
     ! # INITIAL CONDITIONS #
