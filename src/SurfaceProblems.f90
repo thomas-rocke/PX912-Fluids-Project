@@ -94,12 +94,12 @@ module SurfaceProblems
 
         real(kind=REAL64) :: factor, const
 
-        ! h = - sqrt(sig^2/P^2 - R^2) + sqrt(sig^2/P^2 - r^2)
+        ! h = - sqrt(4sig^2/P^2 - R^2) + sqrt(4sig^2/P^2 - r^2)
         ! = const + sqrt(factor - r^2)
-        factor =  Dat%sigma**2 / Dat%P ** 2
+        factor =  4.0_REAL64 * Dat%sigma**2 / Dat%P ** 2
         const =  sqrt(factor - Dat%R**2)
 
-        Dat%h = -const + sqrt(factor - Dat%rad**2)
+        Dat%h = (-const + sqrt(factor - Dat%rad**2))
 
     end subroutine
 

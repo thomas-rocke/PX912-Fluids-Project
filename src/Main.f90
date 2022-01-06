@@ -9,12 +9,12 @@ integer :: N
 procedure(func_template), pointer :: f => YoungLaplace
 
 ! Use values for water
-P = 1.0_REAL64
+P = 5.0_REAL64
 Rho = 1000.0_REAL64
 g = 0
-sigma = 0.07_REAL64
-R = 20E-3_REAL64
-N = 100
+sigma = 5.0_REAL64!0.07_REAL64
+R = 10E-3_REAL64
+N = 300
 
 
 call Dat%init(P, Rho, g, sigma, R, N)

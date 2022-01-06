@@ -98,6 +98,7 @@ module NewtonIteration
 
         integer :: j
 
+        !$omp parallel do private(dx)
         DO j=1, N
             dx = 0.0_REAL64
             ! dx_i = eps * x_j for i=j, 0 otherwise
