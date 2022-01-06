@@ -17,13 +17,13 @@ fig, ax = plt.subplots(nrows=2, sharex=True)
 
 ax[0].plot(x, sf*in_dat, label="Initial")
 ax[0].plot(x, sf*fin_dat, label="Final")
-ax[1].plot(x, (in_dat - fin_dat)* sf, label="Relative Difference")
+ax[1].plot(x, (in_dat - fin_dat)* sf * 10**3, label="Relative Difference")
 
 ax[1].set_xlabel("Radius (mm)")
 ax[0].set_ylabel("Surface Height ($\mu$m)")
 
-ax[1].set_ylabel("Error ($\mu$m)")
+ax[1].set_ylabel("Error ($p$m)")
 ax[0].legend()
 
-ax[0].set_title("Agreement for P=5Pa")
+ax[0].set_title("Agreement for P=0.01Pa")
 plt.show()
