@@ -46,6 +46,14 @@ module SurfaceProblems
 
     end subroutine
 
+
+    function Volume(Dat)
+        type(Data), intent(in) :: Dat
+        real(kind=REAL64) :: Volume
+
+        Volume = PI * Dat%dr * sum(Dat%h*Dat%rad)
+    end function
+
     ! ###################
     ! # ERROR FUNCTIONS #
     ! ###################
