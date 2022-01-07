@@ -5,7 +5,7 @@ n=300
 
 sf = 1E9
 
-R = 1E-4
+R = 1E2
 
 init = "Initial.dat"
 fin = "Final.dat"
