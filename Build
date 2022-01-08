@@ -1,0 +1,32 @@
+#!/bin/bash
+
+#### COMPILE #### 
+
+success=0
+
+echo "Compiling Code"
+# File dependancy chain
+myprogramfiles="./src/DiscreteDiff.f90 ./src/SurfaceProblems.f90 ./src/NewtonIteration.f90 ./src/Main.f90"
+
+#Name of compiled file
+outfile="Test.exe"
+
+#Name of compiler
+fc=gfortran
+
+#Compile Line
+$fc -g $myprogramfiles -o $outfile -fopenmp -llapack && success=1
+
+if [ $success -eq 1 ]
+then
+    #### EXECUTE COMPILED CODE ####
+    echo "Executing compiled code"
+    # Uses Command Line Args defined above
+    ./$outfile
+
+    #### EXECUTE PYTHON VISUALISATION ####
+    echo "Executing Python visualisation"
+    python3 ./src/Visualisation.py
+else
+    echo "Compiling step failed. Aborting"
+fi
